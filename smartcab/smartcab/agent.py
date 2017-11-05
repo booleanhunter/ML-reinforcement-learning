@@ -73,7 +73,7 @@ class LearningAgent(Agent):
         
         # Set 'state' as a tuple of relevant data for the agent
         #state = (waypoint, inputs)       
-        state = (waypoint, inputs['light'], inputs['oncoming'], inputs['left'], inputs['right'])
+        state = (waypoint, inputs['light'], inputs['oncoming'], inputs['left'])
 
         if self.learning == True:
             if not state in self.Q:
@@ -91,12 +91,12 @@ class LearningAgent(Agent):
         ###########
         # Calculate the maximum Q-value of all actions for a given state
 
-        maxQ = 0.0
-
-        for action in self.valid_actions:
-            action_value = self.Q[state][action]
-            if action_value > maxQ:
-                maxQ = action_value
+        maxQ = max(self.Q[state].values())
+        # maxQ = 0.0
+        # for action in self.valid_actions:
+        #     action_value = self.Q[state][action]
+        #     if action_value > maxQ:
+        #         maxQ = action_value
 
         return maxQ 
 
@@ -230,14 +230,14 @@ def run():
     #   display      - set to False to disable the GUI if PyGame is enabled
     #   log_metrics  - set to True to log trial and simulation results to /logs
     #   optimized    - set to True to change the default log file name
-    sim = Simulator(env, update_delay=0.01, log_metrics=True, display=False)
+    sim = Simulator(env, update_delay=0.01, log_metrics=True, display=False, optimized=True)
     
     ##############
     # Run the simulator
     # Flags:
     #   tolerance  - epsilon tolerance before beginning testing, default is 0.05 
     #   n_test     - discrete number of testing trials to perform, default is 0
-    sim.run(n_test=20, tolerance=0.02)
+    sim.run(n_test=10, tolerance=0.02)
 
 
 if __name__ == '__main__':
